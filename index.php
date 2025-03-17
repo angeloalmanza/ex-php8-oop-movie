@@ -1,4 +1,18 @@
 <?php
+trait MovieRating {
+    // Proprietà
+    public $rating;
+
+    // Metodo
+    public function setRating($_rating) {
+        $this->rating = $_rating;
+    }
+
+    public function getRating() {
+        return $this->rating;
+    }
+}
+
 class Genre {
     //variabili d'istanza
     public $name;
@@ -12,6 +26,8 @@ class Genre {
 }
 
 class Movie {
+    use MovieRating;
+    
     //variabili d'istanza
     public $title;
     public $director;
@@ -64,10 +80,16 @@ class Movie {
         new Movie("The Dark Knight", "Christopher Nolan", 2008, [$action, $drama])
     ];
 
+    // Impostiamo un rating per ogni film
+    $movies[0]->setRating(8.8);
+    $movies[1]->setRating(8.6);
+    $movies[2]->setRating(9.0);
+
     foreach ($movies as $movie) {
         echo "<div>";
         echo $movie->getMovieDescription() . "<br>";
-        echo $movie->getGenreDetails();
+        echo $movie->getGenreDetails() . "<br>";
+        echo "<strong>Rating:</strong> {$movie->getRating()}";
         echo "</div><br>";
     }
     ?>
