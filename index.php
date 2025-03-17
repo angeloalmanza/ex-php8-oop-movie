@@ -16,24 +16,30 @@ class Movie {
     public $title;
     public $director;
     public $year;
-    public $genre;
+    public $genres = [];
 
     //costruttore
-    public function __construct($_title, $_director, $_year, Genre $_genre) {
+    public function __construct($_title, $_director, $_year, array $_genres) {
         $this->title = $_title;
         $this->director = $_director;
         $this->year = $_year;
-        $this-> genre = $_genre;
+        $this-> genres = $_genres;
     }
 
     //metodo
     public function getMovieDescription() {
-        return "Il film {$this->title} è stato diretto da {$this->director} ed è stato publicato nel {$this->year}";
+        return "Il film <strong>{$this->title}</strong> è stato diretto da <strong>{$this->director}</strong> ed è stato publicato nel <strong>{$this->year}</strong>";
     }
 
     public function getGenreDetails() {
-        return "Genere: {$this->genre->name} - {$this->genre->description}";
-    }
+        $genreDetails = [];
+    
+        foreach ($this->genres as $genre) {
+            $genreDetails[] = "<strong>{$genre->name}:</strong> {$genre->description}";
+        }
+    
+        return "<strong>Generi:</strong> " . implode(" | ", $genreDetails);
+    }    
 }
 ?>
 
@@ -50,11 +56,12 @@ class Movie {
     <?php
     $scifi = new Genre("Fantascienza", "Film basati su scienza e tecnologia futuristica.");
     $action = new Genre("Azione", "Film con molte scene dinamiche e combattimenti.");
+    $drama = new Genre("Drammatico", "Film che esplorano emozioni e storie profonde.");
 
     $movies = [
-        new Movie("Inception", "Christopher Nolan", 2010, $scifi),
-        new Movie("Interstellar", "Christopher Nolan", 2014, $scifi),
-        new Movie("The Dark Knight", "Christopher Nolan", 2008, $action)
+        new Movie("Inception", "Christopher Nolan", 2010, [$scifi, $action]),
+        new Movie("Interstellar", "Christopher Nolan", 2014, [$scifi, $drama]),
+        new Movie("The Dark Knight", "Christopher Nolan", 2008, [$action, $drama])
     ];
 
     foreach ($movies as $movie) {
